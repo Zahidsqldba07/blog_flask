@@ -1,3 +1,4 @@
+from crypt import methods
 import os
 import time
 import logging
@@ -33,9 +34,13 @@ portfolio = get_db_collection('portfolio')
 def home_page(props=None):
     return render_template('home_page.html', props=props)
 
-@app.route('/portfolio')
-def portfolio_page(props=None):
+@app.route('/portfolio', methods=('GET'))
+def fetch_portfolios(props=None):
     return render_template('portfolio_page.html', props=props)
+
+@app.route('/portfolio/editor', methods=('POST'))
+def create_portfolio(props=None):
+    return render_template('portfolio_editor_page.html', props=props)
 
 @app.errorhandler(404)
 def page_not_found(error):
