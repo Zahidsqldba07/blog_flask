@@ -3,4 +3,4 @@
 export FLASK_APP=main
 export FLASK_ENV=development
 flask init-db
-flask run
+flask run -h localhost -p 5001

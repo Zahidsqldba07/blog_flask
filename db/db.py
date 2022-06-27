@@ -19,15 +19,15 @@ logger.setLevel(logging.DEBUG)
 class MongoDBCollectionException(Exception):
     pass
 
-async def get_db():
+def get_db():
     if 'client' not in g:
         g.client = MongoClient('mongodb://localhost:27017')
         g.client.db = MONGODB_NAME
 
-    return g.client
+    return g.client.db
 
-async def close_db():
-    db = g.pop('db', None)
+def close_db(exception=None):
+    db = g.pop('client', None)
     if db is not None:
         db.close()
 
@@ -40,11 +40,11 @@ async def get_db_collection(collection, backoff_factor=.1):
 
 @click.command('init-db')
 @with_appcontext
-async def init_db_command():
-    await get_db()
+def init_db_command():
+    get_db()
     click.echo('Initialized MongoDB')
 
 async def init_app(app):
     with app.app_context():
-        app.teardown_appcontext(await close_db())
-        app.cli.add_command(await init_db_command())
+        app.teardown_appcontext(close_db)
+        app.cli.add_command(init_db_command)
