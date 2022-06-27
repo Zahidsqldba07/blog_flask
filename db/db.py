@@ -21,8 +21,8 @@ class MongoDBCollectionException(Exception):
 
 async def get_db():
     if 'client' not in g:
-        g.client = client = MongoClient('mongodb://localhost:27017')
-        g.client.db = client[MONGODB_NAME]
+        g.client = MongoClient('mongodb://localhost:27017')
+        g.client.db = MONGODB_NAME
 
     return g.client
 
@@ -41,8 +41,8 @@ async def get_db_collection(collection, backoff_factor=.1):
 @click.command('init-db')
 @with_appcontext
 async def init_db_command():
-     db = await get_db()
-     click.echo('Initialized MongoDB')
+    await get_db()
+    click.echo('Initialized MongoDB')
 
 async def init_app(app):
     with app.app_context():
