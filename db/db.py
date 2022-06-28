@@ -32,8 +32,9 @@ def close_db(exception=None):
         db.close()
 
 async def get_db_collection(collection, backoff_factor=.1):
+    db = get_db()
     try:
-        return g.client.db[collection]
+        return db[collection]
     except MongoDBCollectionException:
         time.sleep(backoff_factor)
         return await get_db_collection(collection, backoff_factor * 2)

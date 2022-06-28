@@ -1,11 +1,14 @@
 import asyncio
-from db import db
 from crypt import methods
 from flask import Flask, request, render_template
+
+from db import db
+from auth import auth
 
 
 app = Flask(__name__)
 asyncio.run(db.init_app(app))
+app.register_blueprint(auth.bp)
 
 
 @app.route('/')
@@ -16,7 +19,7 @@ def home_page(props=None):
 def fetch_portfolios(props=None):
     return render_template('portfolio_page.html', props=props)
 
-@app.route('/portfolio/editor', methods=['POST'])
+@app.route('/portfolio/editor', methods=['GET', 'POST'])
 def create_portfolio(props=None):
     return render_template('portfolio_editor_page.html', props=props)
 
