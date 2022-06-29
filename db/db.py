@@ -19,8 +19,9 @@ logger.setLevel(logging.DEBUG)
 class MongoDBCollectionException(Exception):
     pass
 
-def get_db():
+async def get_db():
     if 'client' not in g:
+        # TODO: install Motor MongoDB async driver to connect to DB async
         g.client = MongoClient('mongodb://localhost:27017')
         g.client.db = MONGODB_NAME
 
@@ -32,7 +33,7 @@ def close_db(exception=None):
         db.close()
 
 async def get_db_collection(collection, backoff_factor=.1):
-    db = get_db()
+    db = await get_db()
     try:
         return db[collection]
     except MongoDBCollectionException:
@@ -41,8 +42,8 @@ async def get_db_collection(collection, backoff_factor=.1):
 
 @click.command('init-db')
 @with_appcontext
-def init_db_command():
-    get_db()
+async def init_db_command():
+    await get_db()
     click.echo('Initialized MongoDB')
 
 async def init_app(app):

@@ -1,3 +1,4 @@
+import asyncio
 from crypt import methods
 import datetime
 import functools
@@ -47,12 +48,12 @@ def register():
     return render_template('auth/register_page.html')
 
 @bp.route('/login', methods=['GET', 'POST'])
-def login():
+async def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
 
-        user_collection = get_db_collection('user')
+        user_collection = await get_db_collection('user')
         error = None
 
         user = user_collection.find_one({'username': username})
