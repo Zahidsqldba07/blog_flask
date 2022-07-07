@@ -4,11 +4,9 @@ services:
         image: postgres:14.4
         restart: always
         environment:
-            - POSTGRES_USER=${POSTGRES_USER}
-            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-            - POSTGRES_DB=${POSTGRES_DB}
-        ports:
-            - "5432:5432"
+            - POSTGRES_USER
+            - POSTGRES_PASSWORD
+            - POSTGRES_DB
         volumes:
             - ./db/docker-entrypoint-initdb.d/creare-tables.sql:/docker-entrypoint-initdb.d/creare-tables.sql
         logging:
@@ -17,24 +15,34 @@ services:
                 max-file: 3
         healthcheck:
             test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
-            interval: 1m30s
-            timeout: 30s
+            interval: 5s
+            timeout: 10s
             retries: 5
             start_period: 30s
+        networks:
+            - back_tier
     app:
         image: python:3.8-slim-buster
         build: ./app
+        environment:
+            - APP_HOST
+            - APP_PORT
         ports:
-            - "5001:5001"
+            - "${APP_PORT}:${APP_PORT}"
         healthcheck:
-            test: ["CMD-SHELL", "curl --fail -s http:/localhost:5001/ || exit 1"]
-            interval: 1m30s
-            timeout: 30s
+            test: ["CMD-SHELL", "curl --fail -s http:/${APP_HOST}:${APP_PORT}/ || exit 1"]
+            interval: 5s
+            timeout: 10s
             retries: 5
             start_period: 30s
         depends_on:
-            - db:
+            db:
                 condition: service_healthy
+        networks:
+            - back_tier
 volumes:
     db:
         driver: "local"
+networks:
+    front-tier:
+    back_tier:
