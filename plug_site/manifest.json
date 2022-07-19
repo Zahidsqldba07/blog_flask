@@ -1,0 +1,28 @@
+{
+    "manifest_version": 2,
+    "version": "0.1",
+    "author": "Igor Nadiein",
+    "developer": {
+        "name": "Igor Nadiein",
+        "url": "https://github.com/nadiein/"
+    },
+    "description": "Blog web app, where I'll share my experience, knowledge etc.",
+    "homepage_url": "https://nadiein.com",
+    "developer.url": "https://nadiein.com",
+    "icons": {
+        "57": "apple-icon-57x57.png",
+        "60": "apple-icon-60x60.png",
+        "72": "apple-icon-72x72.png",
+        "76": "apple-icon-76x76.png",
+        "114": "apple-icon-114x114.png",
+        "120": "apple-icon-120x120.png",
+        "144-apple": "apple-icon-144x144.png",
+        "152": "apple-icon-152x152.png",
+        "180": "apple-icon-180x180.png",
+        "192": "android-icon-192x192.png",
+        "32": "favicon-32x32.png",
+        "96": "favicon-96x96.png",
+        "16": "favicon-16x16.png",
+        "144-ms": "ms-icon-144x144.png"
+    }
+}
