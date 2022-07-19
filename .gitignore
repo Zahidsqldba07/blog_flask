@@ -3,3 +3,4 @@ __pycache__
 .env
 .flaskenv
 sqltools_*.log
+nginx_*.txt
