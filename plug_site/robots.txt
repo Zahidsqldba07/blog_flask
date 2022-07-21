@@ -11,3 +11,6 @@ Disallow:
 User-agent: *
 Disallow: 
 Crawl-delay: 5
+
+Sitemap: https://www.nadiein.com/sitemap.xml
+Sitemap: http://www.nadiein.com/sitemap.xml
