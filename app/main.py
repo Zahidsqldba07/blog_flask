@@ -1,13 +1,11 @@
-import asyncio
-from crypt import methods
-from flask import Flask, request, render_template
+from flask import Flask, render_template
 
 from db import db
 from auth import auth
 
 
 app = Flask(__name__)
-asyncio.run(db.init_app(app))
+db.init_app(app)
 app.register_blueprint(auth.bp)
 
 
@@ -26,7 +24,3 @@ def create_portfolio(props=None):
 @app.errorhandler(404)
 def page_not_found(error):
     return render_template('not_found_page.html'), 404
-
-
-if __name__ == "__main__":
-    app.run(debug=True)
