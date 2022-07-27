@@ -1,5 +1,5 @@
 CREATE TABLE users (
-    userId BIGINT NOT NULL PRIMARY KEY,
+    userId BIGSERIAL NOT NULL PRIMARY KEY,
     name VARCHAR(30) NOT NULL,
     email VARCHAR(30) NOT NULL UNIQUE,
     password VARCHAR(60) NOT NULL,
@@ -8,26 +8,35 @@ CREATE TABLE users (
 );
 
 CREATE TABLE description (
-    descriptionId BIGINT NOT NULL PRIMARY KEY REFERENCES users (userId),
+    descriptionId BIGSERIAL PRIMARY KEY,
     image BYTEA,
     about TEXT,
-    contact JSON
+    contact JSON,
+    FOREIGN KEY (descriptionId) REFERENCES users (userId)
 );
 
 CREATE TABLE portfolio (
-    portfolioId BIGINT NOT NULL PRIMARY KEY REFERENCES users (userId),
+    portfolioId BIGSERIAL PRIMARY KEY,
     companyName VARCHAR(100) NOT NULL,
-    startDate DATETIME NOT NULL,
-    endDate DATETIME,
+    startDate TIMESTAMP NOT NULL,
+    endDate TIMESTAMP,
     skills JSON,
-    description TEXT
+    description TEXT,
+    FOREIGN KEY (portfolioId) REFERENCES users (userId)
 );
 
-ALTER TABLE USERS
-    ADD CONSTRAINT fk_portfolio FOREIGN KEY (userId) REFERENCES description (descriptionId),
-        CONSTRAINT fk_description FOREIGN KEY (userId) REFERENCES portfolio (portfolioId);
+-- ALTER TABLE users
+--     ADD CONSTRAINT fk_description FOREIGN KEY (userId) REFERENCES description (descriptionId);
+-- ALTER TABLE users
+--     ADD CONSTRAINT fk_portfolio FOREIGN KEY (userId) REFERENCES portfolio (portfolioId);
 
 BEGIN TRANSACTION;
     INSERT INTO users (name, email, password)
     VALUES ('Igor Nadiein', 'nadiein@dev.com', '1234');
+
+    INSERT INTO description (image, about)
+    VALUES (NULL, 'Hi, Im Igor!');
+
+    INSERT INTO portfolio (companyName, startDate, endDate)
+    VALUES ('DataRobot', '2020-09-14 10:00:00', NULL);
 COMMIT;
