@@ -3,6 +3,6 @@ FROM node:18.4.0
 LABEL key="nadiein-client"
 WORKDIR /app
 COPY . .
-RUN npm i
+RUN npm install
 EXPOSE 3001
-CMD [ "npm start" ]
+CMD [ "npm run start" ]
