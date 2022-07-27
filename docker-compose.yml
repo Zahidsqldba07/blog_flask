@@ -23,7 +23,7 @@ services:
             - back_tier
     app:
         image: tiangolo/uwsgi-nginx-flask:python3.8-alpine
-        build: /var/www
+        build: ./var/www
         environment:
             - FLASK_RUN_HOST
             - FLASK_RUN_PORT
@@ -44,7 +44,7 @@ services:
             - back_tier
     client:
         image: node:18.4.0
-        build: /client
+        build: ./client
         environment:
             - REACT_PORT
         ports:
@@ -60,5 +60,5 @@ volumes:
     db:
         driver: "local"
 networks:
-    front-tier:
+    front_tier:
     back_tier:
