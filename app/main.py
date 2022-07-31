@@ -5,6 +5,9 @@ from auth import auth
 
 
 app = Flask(__name__)
+app.config['ENV'] = 'development'
+app.config['DEBUG'] = True
+app.config['TESTING'] = True
 db.init_app(app)
 app.register_blueprint(auth.bp)
 
