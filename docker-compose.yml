@@ -1,4 +1,4 @@
-version: "3.9"
+version: "3.8"
 services:
     db:
         image: postgres:14.4
@@ -22,7 +22,7 @@ services:
         networks:
             - back_tier
     app:
-        image: tiangolo/uwsgi-nginx-flask:python3.8-alpine
+        image: python:3.11-rc-buster
         build:
             context: ./app
             dockerfile: Dockerfile
